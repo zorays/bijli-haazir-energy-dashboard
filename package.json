@@ -1,0 +1,12 @@
+{
+  "name": "bijli-haazir-energy-impact-dashboard",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Transparent, no-dependency synthetic energy, economics and carbon demo for Bijli Haazir LUMS CleanTech Hackathon 2026",
+  "scripts": {
+    "test": "node --test",
+    "serve": "python3 -m http.server 8080"
+  },
+  "license": "MIT"
+}

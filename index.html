@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#031429" />
+  <meta name="description" content="Bijli Haazir energy contribution dashboard: transparent synthetic scenarios for solar and grid sourcing, mobile charging, BESS, battery swaps, economics and operational CO2." />
+  <title>Bijli Haazir · Energy Contribution Dashboard</title>
+  <link rel="icon" href="./assets/favicon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="./src/styles.css" />
+  <script type="module" src="./src/app.js"></script>
+</head>
+<body>
+  <div class="layout">
+    <aside class="sidebar" aria-label="Main navigation">
+      <div class="brand">
+        <div class="brand-mark" aria-hidden="true">ϟ</div>
+        <div><div class="brand-name">Bijli <strong>HAAZIR</strong></div><div class="brand-sub">ENERGY ANYWHERE</div></div>
+      </div>
+      <div class="side-heading">WORKSPACE</div>
+      <nav class="side-nav" aria-label="Dashboard sections">
+        <button class="nav-link active" type="button" data-view="network" aria-selected="true"><span class="nav-icon">▦</span> Network overview</button>
+        <button class="nav-link" type="button" data-view="economics" aria-selected="false"><span class="nav-icon">↗</span> Financial contribution</button>
+        <button class="nav-link" type="button" data-view="climate" aria-selected="false"><span class="nav-icon">◈</span> Climate scenarios</button>
+        <button class="nav-link" type="button" data-view="pilot" aria-selected="false"><span class="nav-icon">◎</span> Pilot scorecard</button>
+      </nav>
+      <div class="sidebar-bottom">
+        <div class="side-note"><span class="dot yellow"></span> EXPLORATORY / PRE-PILOT<br/><span>Not live assets or sales</span></div>
+        <a href="https://zorays.com/bijli-haazir/" target="_blank" rel="noopener noreferrer" class="side-site">Project background <span>↗</span></a>
+        <div class="side-foot">LUMS CLEANTECH 2026<br/>ZORAYS SOLAR PAKISTAN</div>
+      </div>
+    </aside>
+
+    <main class="main">
+      <div class="topline"><span><span class="topline-dot"></span> BIJLI HAAZIR / INTELLIGENCE</span><span class="topline-right">ENERGY · CAPACITY · ACCESS</span></div>
+      <header class="topbar">
+        <div><p class="eyebrow">ENERGY IMPACT INTELLIGENCE</p><h1>Energy contribution <span>dashboard</span></h1><p class="subtext">Track simulated energy flow, cost per delivered kWh and climate outcomes across one proposed distributed storage network.</p></div>
+        <div class="header-actions"><span class="data-badge"><span class="data-led"></span> SYNTHETIC DEMO DATA</span><button class="btn btn-secondary" id="download-csv" type="button">↓ Export events CSV</button></div>
+      </header>
+      <div class="hero">
+        <div class="hero-copy"><div class="hero-kicker">THE BIJLI HAAZIR THESIS</div><div class="hero-title">One energy network.<br/><em>Three delivery modes.</em></div><p>Acquire when economical. Store intelligently. Dispatch to the road, a fixed charging site or an electric rider.</p><div class="hero-pills"><span>01 / Mobile energy</span><span>02 / Station BESS</span><span>03 / Rider swaps</span></div></div>
+        <img class="hero-art" src="./assets/bijli-truck.jpg" alt="Bijli Haazir branded mobile electricity truck charging an electric car, concept artwork" />
+        <div class="hero-bolt" aria-hidden="true">ϟ</div>
+      </div>
+      <div class="filterbar"><div class="filter-note">SELECTED DEMONSTRATION WINDOW <strong>2026, REPRODUCIBLE</strong></div><div class="filter-controls"><div class="segmented" aria-label="Period"><button data-days="7" type="button">7D</button><button data-days="14" type="button">14D</button><button class="active" data-days="30" type="button">30D</button></div><label class="sr-only" for="mode-filter">Delivery mode</label><select id="mode-filter"><option value="all">All delivery modes</option><option value="mobile">Mobile energy truck</option><option value="station">Fixed DC–DC charging</option><option value="swaps">Rider battery swapping</option></select></div></div>
+      <div class="kpi-grid" aria-label="Network key performance indicators">
+        <article class="kpi"><div class="kpi-top">Delivered energy <span>↗</span></div><div class="kpi-value" id="kpi-delivered">—</div><div class="kpi-hint"><span class="cyan-mini">●</span> Dispatchable output</div></article>
+        <article class="kpi"><div class="kpi-top">Solar source mix <span>☼</span></div><div class="kpi-value" id="kpi-solar">—</div><div class="kpi-hint">Fraction of input energy</div></article>
+        <article class="kpi"><div class="kpi-top">Net contribution / kWh <span>↗</span></div><div class="kpi-value" id="kpi-margin">—</div><div class="kpi-hint">Simulated variable costs</div></article>
+        <article class="kpi"><div class="kpi-top">Energy delivery efficiency <span>◫</span></div><div class="kpi-value" id="kpi-efficiency">—</div><div class="kpi-hint">Delivered ÷ purchased</div></article>
+        <article class="kpi"><div class="kpi-top">Service uptime <span>◷</span></div><div class="kpi-value" id="kpi-uptime">—</div><div class="kpi-hint">Energy-weighted synthetic value</div></article>
+        <article class="kpi"><div class="kpi-top">Peak BESS buffer <span>ϟ</span></div><div class="kpi-value" id="kpi-peak">—</div><div class="kpi-hint">Maximum event, not energy</div></article>
+      </div>
+
+      <section class="view-panel" id="view-network" aria-label="Network overview">
+        <div class="section-title"><div><div class="eyebrow">01 / OPERATIONS</div><h2>Energy contribution &amp; flow</h2></div><div class="section-note">Every unit has a source, a destination and a loss.</div></div>
+        <div class="network-grid">
+          <article class="panel span-two"><div class="panel-head"><div><h3>Energy acquired by source</h3><p>Daily synthetic transactions · stacked input kWh</p></div><div class="chart-legend"><span><i class="swatch cyan"></i> Solar</span><span><i class="swatch gold"></i> Grid</span></div></div><div id="energy-chart" class="svg-chart" aria-live="polite"></div></article>
+          <article class="panel"><div class="panel-head"><div><h3>Energy distribution</h3><p>Delivered kWh by service</p></div></div><div class="donut-wrap"><div id="mode-donut" class="donut"><div class="donut-center"><span>3 SERVICES</span><strong>ONE<br/>NETWORK</strong></div></div></div><div id="mode-legend" class="mode-legend"></div></article>
+          <article class="panel"><div class="panel-head"><div><h3>Where energy comes from</h3><p>Solar + economically purchased grid input</p></div></div><div class="metric-stack"><div class="metric-line"><span>Solar contribution</span><strong id="stat-solar">—</strong></div><div class="metric-line"><span>Grid contribution</span><strong id="stat-grid">—</strong></div></div><div class="stack-bar" id="source-bar" aria-label="Solar versus grid source proportion"></div><div class="panel-divider"></div><div class="metric-stack"><div class="metric-line"><span>Total energy in</span><strong id="stat-input">—</strong></div><div class="metric-line"><span>Delivered output</span><strong id="stat-delivered">—</strong></div><div class="metric-line"><span>Storage + delivery losses</span><strong id="stat-loss">—</strong></div><div class="metric-line"><span>Rider exchanges</span><strong id="stat-swaps">—</strong></div></div></article>
+          <article class="panel span-two"><div class="panel-head"><div><h3>Transaction ledger</h3><p>Inspectable sample records — source-tagged, reproducible, not metered</p></div><div class="table-meta" id="row-count">—</div></div><div class="table-wrap"><table><thead><tr><th>Date</th><th>Delivery mode</th><th>Solar kWh</th><th>Grid kWh</th><th>Delivered kWh</th><th>Uptime</th></tr></thead><tbody id="raw-tbody"></tbody></table></div></article>
+        </div>
+      </section>
+      <section class="view-panel" id="view-economics" aria-label="Financial contribution" hidden>
+        <div class="section-title"><div><div class="eyebrow">02 / COMMERCIAL MODEL</div><h2>Contribution, not just a tariff spread</h2></div><div class="section-note">All prices in Pakistani rupees · adjustable scenarios</div></div>
+        <div class="econ-grid">
+          <article class="panel"><div class="panel-head"><div><h3>Financial waterfall</h3><p>Illustrative period totals</p></div></div>
+            <div class="finance-row"><span>Gross delivered-energy revenue</span><strong id="finance-revenue">—</strong></div><div class="finance-row"><span>Acquisition cost</span><strong id="finance-energy">—</strong></div><div class="cost-track"><span id="bar-energy" class="bar cyan"></span></div>
+            <div class="finance-row"><span>Battery cycling &amp; wear</span><strong id="finance-wear">—</strong></div><div class="cost-track"><span id="bar-wear" class="bar lavender"></span></div>
+            <div class="finance-row"><span>Dispatch / logistics</span><strong id="finance-logistics">—</strong></div><div class="cost-track"><span id="bar-logistics" class="bar gold"></span></div>
+            <div class="finance-row"><span>Operations &amp; site allocation</span><strong id="finance-opex">—</strong></div><div class="cost-track"><span id="bar-opex" class="bar lime"></span></div>
+            <div class="finance-row final"><span>Net operational contribution*</span><strong id="finance-contribution">—</strong></div><div class="cost-track"><span id="bar-contribution" class="bar green"></span></div><p class="fine-print">* Excludes major capital recovery, financing, taxes, fixed corporate overhead and any unmodelled fees. No subscriptions are assumed in this ledger.</p>
+          </article>
+          <article class="panel"><div class="panel-head"><div><h3>Scenario assumptions</h3><p>Change costs and selling tariffs to stress-test viability.</p></div><button class="text-button" type="button" id="reset-rates">Reset</button></div><div class="rate-grid">
+            <label>Solar acquisition <span>Rs/kWh</span><input data-rate="solarCost" type="number" min="0" max="1000" step="1" /></label>
+            <label>Grid acquisition <span>Rs/kWh</span><input data-rate="gridCost" type="number" min="0" max="1000" step="1" /></label>
+            <label>Battery wear <span>Rs/delivered kWh</span><input data-rate="wearCost" type="number" min="0" max="1000" step="1" /></label>
+            <label>Operating cost <span>Rs/delivered kWh</span><input data-rate="opexCost" type="number" min="0" max="1000" step="1" /></label>
+            <label>Logistics cost <span>Rs/delivered kWh</span><input data-rate="transportCost" type="number" min="0" max="1000" step="1" /></label>
+            <label>Site allocation <span>Rs/delivered kWh</span><input data-rate="siteCost" type="number" min="0" max="1000" step="1" /></label>
+            <label>Mobile charging tariff <span>Rs/kWh</span><input data-rate="mobilePrice" type="number" min="0" max="1000" step="1" /></label>
+            <label>Fixed DC–DC tariff <span>Rs/kWh</span><input data-rate="stationPrice" type="number" min="0" max="1000" step="1" /></label>
+            <label>Rider swap energy tariff <span>Rs/kWh</span><input data-rate="swapsPrice" type="number" min="0" max="1000" step="1" /></label>
+          </div><div class="emphasis-stat"><span>Net contribution per delivered unit</span><strong id="finance-unit">—</strong></div><p class="fine-print">Illustrative economics only. All legal pathways for sourcing, pricing and selling energy must be established separately.</p></article>
+          <article class="panel span-two lesson-panel"><div class="eyebrow">INVESTOR / JUDGE DISCIPLINE</div><h3>An energy spread is not a profit margin.</h3><p>The pitch example: 100 kWh acquired at Rs 40 costs Rs 4,000. If 85 kWh is delivered and sold at Rs 105, sales are Rs 8,925. The Rs 4,925 difference must still cover battery degradation, trucks, chargers, site fees, overhead, taxes and financing. These are assumptions, not customer transactions.</p></article>
+        </div>
+      </section>
+      <section class="view-panel" id="view-climate" aria-label="Climate impact scenarios" hidden>
+        <div class="section-title"><div><div class="eyebrow">03 / CLIMATE ACCOUNTING</div><h2>Claim impact you can defend</h2></div><div class="section-note">Operational scenario · not measured pilot data or lifecycle analysis</div></div>
+        <div class="climate-grid">
+          <article class="panel climate-highlight"><div class="eyebrow">ESTIMATED NET OPERATIONAL AVOIDANCE</div><div class="climate-number" id="co2-value">—</div><div class="climate-label">Car displacement scenario, not actual project emissions saved</div><div class="climate-ribbon">MONITORED DATA REQUIRED BEFORE PUBLIC CLAIMS</div></article>
+          <article class="panel"><div class="panel-head"><div><h3>Adjust scenario assumptions</h3><p>Change only what's actually attributable.</p></div></div><div class="slider-row"><div><label for="solar-range">Verified solar share</label><strong id="range-solar-label">0%</strong></div><input id="solar-range" type="range" min="0" max="100" step="5" value="0" /></div><div class="slider-row"><div><label for="displacement-range">Genuine petrol displacement</label><strong id="range-displacement-label">100%</strong></div><input id="displacement-range" type="range" min="0" max="100" step="5" value="100" /></div><div class="slider-row"><div><label for="km-range">Car travel scenario</label><strong id="range-km-label">100,000 km</strong></div><input id="km-range" type="range" min="10000" max="300000" step="10000" value="100000" /></div><div class="fine-print">Electric miles driven by customers already using EVs are not credited as new avoided petrol use. Grid emissions factor: 0.365 kgCO₂/kWh; gasoline combustion: 2.31 kgCO₂/L.</div></article>
+          <article class="panel span-two"><div class="panel-head"><div><h3>Carbon accounting bridge</h3><p>Direct petrol tailpipe reference minus modelled charging emissions</p></div></div><div class="carbon-bars"><div class="carbon-bar-row"><div><span>Displaced petrol baseline</span><strong id="co2-baseline">—</strong></div><div class="carbon-track"><span id="co2-baseline-bar" class="carbon-fill petrol"></span></div></div><div class="carbon-bar-row"><div><span>Modelled charging emissions</span><strong id="co2-electric">—</strong></div><div class="carbon-track"><span id="co2-electric-bar" class="carbon-fill electric"></span></div></div><div class="carbon-bar-row"><div><span>Net operational avoidance</span><strong id="co2-value-duplicate">—</strong></div><div class="carbon-track"><span id="co2-avoided-bar" class="carbon-fill avoided"></span></div></div></div><div class="mini-grid"><div><span>Petrol displaced</span><strong id="co2-petrol">—</strong></div><div><span>EV delivered energy</span><strong id="co2-delivered">—</strong></div><div><span>Attributable ICE km</span><strong id="co2-replaced">—</strong></div></div></article>
+          <article class="panel span-two"><div class="panel-head"><div><h3>Electric two-wheeler scenario</h3><p>20 riders × 40 km/day × 300 days, with verified petrol displacement assumption</p></div></div><div class="rider-stats"><div><span>Modelled attributable operational avoidance</span><strong id="co2-rider">—</strong></div><div><span>Attributable travel</span><strong id="co2-rider-km">—</strong></div></div><p class="fine-print">Excludes battery manufacture, dispatch-truck fuel/electricity, material processing and end-of-life impacts. Emissions estimates should not be marketed as verified credits.</p></article>
+        </div>
+      </section>
+      <section class="view-panel" id="view-pilot" aria-label="Pilot scorecard" hidden>
+        <div class="section-title"><div><div class="eyebrow">04 / FIELD VALIDATION</div><h2>What a real pilot must prove</h2></div><div class="section-note">Go / no-go before scale</div></div>
+        <div class="score-grid"><article class="score-tile"><span>01 / SOURCE MEASUREMENT</span><strong id="pilot-acquired">—</strong><p>Record verified solar vs grid kWh at the meter.</p></article><article class="score-tile"><span>02 / ENERGY DELIVERED</span><strong id="pilot-delivered">—</strong><p>Measure delivered charging energy and losses.</p></article><article class="score-tile"><span>03 / SOLAR ATTRIBUTE</span><strong id="pilot-solar">—</strong><p>Confirm source mix by logs, not assumptions.</p></article><article class="score-tile"><span>04 / PEAK BUFFER</span><strong id="pilot-peak">—</strong><p>Record actual site power peak reduction.</p></article><article class="score-tile"><span>05 / CONTRIBUTION</span><strong id="pilot-contribution">—</strong><p>Count transport, site share, cycles and all variable costs.</p></article><article class="score-tile"><span>06 / RELIABILITY &amp; SAFETY</span><strong id="pilot-reliability">—</strong><p>Track charger uptime, failures and safety incidents.</p></article></div>
+        <div class="pilot-grid"><article class="panel"><h3>Stage 1 · Design</h3><div class="phase">0–30 DAYS</div><ul><li>One approved energy-replenishment hub</li><li>One host DC–DC charging site</li><li>One compatible rider-fleet cohort</li><li>Electrical design, regulatory and safety assessment</li></ul></article><article class="panel"><h3>Stage 2 · Integrate</h3><div class="phase">31–60 DAYS</div><ul><li>Modular BESS, BMS and DC–DC interface</li><li>Energy and battery-state metering</li><li>Safe pack-custody process</li><li>Software-based dispatch records</li></ul></article><article class="panel"><h3>Stage 3 · Operate</h3><div class="phase">61–90 DAYS</div><ul><li>Host charging trials and rider exchanges</li><li>Paid usage, uptime and cost logs</li><li>Attributable avoided-emissions estimates</li><li>Scale only after technical and economic validation</li></ul></article></div>
+        <article class="panel ask-panel"><div><div class="eyebrow">THE HACKATHON ASK</div><h3>Help us prove the first energy node.</h3><p>We seek one host, one compatible rider fleet, a certified BESS/DC-charger integrator, and prototyping / mentoring support. A priced capital ask follows engineering and safety validation.</p></div><button type="button" class="btn btn-yellow" id="download-summary">↓ Export scenario report</button></article>
+      </section>
+      <footer class="foot"><span>© 2026 Bijli Haazir · Concept demonstration</span><span>ALL DATA ON THIS PAGE IS SYNTHETIC OR MODELLED. NO LIVE PILOT FEED.</span></footer>
+    </main>
+  </div>
+</body>
+</html>
